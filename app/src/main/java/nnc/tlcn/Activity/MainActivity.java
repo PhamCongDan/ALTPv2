@@ -20,12 +20,6 @@ public class MainActivity extends AppCompatActivity {
         initComponents();
 
 
-
-
-
-
-
-
     }
 
     private void initComponents() {
