@@ -3,6 +3,7 @@ package nnc.tlcn.Activity;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
@@ -34,7 +35,8 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
     private boolean isPlaying;
 
     boolean clickDapAn=false;
-    int causo=1;
+    int cauSo=1;
+    String luaChon="",dapAn="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +118,10 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         //layoutPlay.setVisibility(View.GONE);
         tvTien.setText("0");
         tvcaseA.setOnClickListener(this);
+        tvcaseB.setOnClickListener(this);
+        tvcaseC.setOnClickListener(this);
+        tvcaseD.setOnClickListener(this);
+
     }
 
     public void stop() {
@@ -161,21 +167,114 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         });
         thongBaoDialog.show();
     }
-    private void xuLyChonDapAn(View view){
+    private void xuLyChonDapAn(final View view){
+        if(!clickDapAn) {
+            clickDapAn=true;
+            view.setBackgroundResource(R.drawable.player_answer_background_selected);
+            new CountDownTimer(4000, 4000) {
+                @Override
+                public void onTick(long l) {
 
+                }
+
+                @Override
+                public void onFinish() {
+                    new CountDownTimer(4500, 500) {
+                        boolean green=false;
+                        @Override
+
+                        public void onTick(long l) {
+                            //tra loi dung thi txt doi mau green-blue
+                            if(luaChon.equals(dapAn)) {
+
+                                if (!green) {
+                                    green = true;
+                                    view.setBackgroundResource(R.drawable.player_answer_background_true);
+                                } else {
+                                    view.setBackgroundResource(R.drawable.player_answer_background_selected);
+                                    green = false;
+                                }
+                            }
+                            else
+                            {
+
+                                if (!green) {
+
+                                    green = true;
+                                    switch (dapAn){
+                                        case "A":
+                                            tvcaseA.setBackgroundResource(R.drawable.player_answer_background_true);
+                                            break;
+                                        case "B":
+                                            tvcaseB.setBackgroundResource(R.drawable.player_answer_background_true);
+                                            break;
+                                        case "C":
+                                            tvcaseC.setBackgroundResource(R.drawable.player_answer_background_true);
+                                            break;
+                                        case "D":
+                                            tvcaseD.setBackgroundResource(R.drawable.player_answer_background_true);
+                                            break;
+
+
+                                    }
+
+                                } else {
+
+                                    switch (dapAn) {
+                                        case "A":
+                                            tvcaseA.setBackgroundResource(R.drawable.player_answer_background_normal);
+                                            break;
+                                        case "B":
+                                            tvcaseB.setBackgroundResource(R.drawable.player_answer_background_normal);
+                                            break;
+                                        case "C":
+                                            tvcaseC.setBackgroundResource(R.drawable.player_answer_background_normal);
+                                            break;
+                                        case "D":
+                                            tvcaseD.setBackgroundResource(R.drawable.player_answer_background_normal);
+                                            break;
+                                    }
+                                    green=false;
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFinish() {
+//                            layoutCauHoi.startAnimation(animationSlidetoLeft);
+//                            //
+//                            layoutCauHoi.setVisibility(View.GONE);
+//                            causo++;
+//
+//
+//                            layoutCauHoi.setVisibility(View.VISIBLE);
+//                            tvQuestion.setText("Câu số "+causo);
+//                            layoutCauHoi.startAnimation(animationSlidefromRight);
+//                            hienThiCauHoi();
+//                            btnA.setBackgroundResource(R.drawable.custom_btn);
+//                            btnB.setBackgroundResource(R.drawable.custom_btn);
+//                            btnC.setBackgroundResource(R.drawable.custom_btn);
+//                            btnD.setBackgroundResource(R.drawable.custom_btn);
+                            clickDapAn=false;
+                        }
+                    }.start();
+                }
+            }.start();
+
+        }
     }
     private void hienThiCauHoi(){
         //mở csdl
         database=openOrCreateDatabase(DATABASE_NAME,MODE_PRIVATE,null);
 
-        Cursor cursor=database.rawQuery("select * from CauHoi where id="+causo,null);
+        Cursor cursor=database.rawQuery("select * from CauHoi where id="+cauSo,null);
         if(cursor.moveToNext()){
-            tvQuestion.setText("Câu số "+causo+"\n"+cursor.getString(1));
+            tvQuestion.setText("Câu số "+cauSo+"\n"+cursor.getString(1));
             tvcaseA.setText("A. "+cursor.getString(2));
             tvcaseB.setText("B. "+cursor.getString(3));
             tvcaseC.setText("C. "+cursor.getString(4));
             tvcaseD.setText("D. "+cursor.getString(5));
-            //dapan=cursor.getString(6);
+            dapAn=cursor.getString(6);
 
         }
         cursor.close();
@@ -215,16 +314,20 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                 comingsoon();
                 break;
             case R.id.tv_case_a:
-
+                luaChon="A";
+                xuLyChonDapAn(tvcaseA);
                 break;
             case R.id.tv_case_b:
-
+                luaChon="B";
+                xuLyChonDapAn(tvcaseB);
                 break;
             case R.id.tv_case_c:
-
+                luaChon="C";
+                xuLyChonDapAn(tvcaseC);
                 break;
             case R.id.tv_case_d:
-
+                luaChon="D";
+                xuLyChonDapAn(tvcaseD);
                 break;
             default:
                 break;
