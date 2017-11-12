@@ -1,5 +1,7 @@
 package nnc.tlcn.Activity;
+
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,6 +15,9 @@ import nnc.tlcn.R;
 import nnc.tlcn.dialogs.thongBaoDialog;
 import nnc.tlcn.layout.tienThuongLayout;
 
+import static nnc.tlcn.Activity.MainActivity.DATABASE_NAME;
+import static nnc.tlcn.Activity.MainActivity.database;
+
 
 public class PlayerActivity extends Activity implements View.OnClickListener {
     private DrawerLayout drawerLayout;
@@ -24,9 +29,12 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
 
     private DrawerLayout.DrawerListener drawerListener;
 
-    private TextView tvTien;
+    private TextView tvTien,tvcaseA,tvcaseB,tvcaseC,tvcaseD,tvQuestion;
 
     private boolean isPlaying;
+
+    boolean clickDapAn=false;
+    int causo=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +46,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         findViewByIds();
         setEvents();
         loadRules();
+        hienThiCauHoi();
     }
 
     public PlayerActivity() {
@@ -58,8 +67,11 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         btnChange=(ImageButton) findViewById(R.id.btn_change);
 
         tvTien=(TextView) findViewById(R.id.tv_tien);
-
-
+        tvcaseA= (TextView) findViewById(R.id.tv_case_a);
+        tvcaseB= (TextView) findViewById(R.id.tv_case_b);
+        tvcaseC= (TextView) findViewById(R.id.tv_case_c);
+        tvcaseD= (TextView) findViewById(R.id.tv_case_d);
+        tvQuestion= (TextView) findViewById(R.id.tv_question);
 
 
         drawerListener = new DrawerLayout.DrawerListener() {
@@ -100,8 +112,10 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         btnChange.setOnClickListener(this);
         btn5050.setOnClickListener(this);
 
+
         //layoutPlay.setVisibility(View.GONE);
         tvTien.setText("0");
+        tvcaseA.setOnClickListener(this);
     }
 
     public void stop() {
@@ -147,6 +161,28 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         });
         thongBaoDialog.show();
     }
+    private void xuLyChonDapAn(View view){
+
+    }
+    private void hienThiCauHoi(){
+        //mở csdl
+        database=openOrCreateDatabase(DATABASE_NAME,MODE_PRIVATE,null);
+
+        Cursor cursor=database.rawQuery("select * from CauHoi where id="+causo,null);
+        if(cursor.moveToNext()){
+            tvQuestion.setText("Câu số "+causo+"\n"+cursor.getString(1));
+            tvcaseA.setText("A. "+cursor.getString(2));
+            tvcaseB.setText("B. "+cursor.getString(3));
+            tvcaseC.setText("C. "+cursor.getString(4));
+            tvcaseD.setText("D. "+cursor.getString(5));
+            //dapan=cursor.getString(6);
+
+        }
+        cursor.close();
+
+
+
+    }
 
 
 
@@ -178,7 +214,18 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
             case R.id.btn_call:
                 comingsoon();
                 break;
+            case R.id.tv_case_a:
 
+                break;
+            case R.id.tv_case_b:
+
+                break;
+            case R.id.tv_case_c:
+
+                break;
+            case R.id.tv_case_d:
+
+                break;
             default:
                 break;
         }
