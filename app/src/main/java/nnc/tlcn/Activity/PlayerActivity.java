@@ -7,6 +7,8 @@ import android.os.CountDownTimer;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -32,6 +34,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
     private DrawerLayout.DrawerListener drawerListener;
 
     private TextView tvTien,tvcaseA,tvcaseB,tvcaseC,tvcaseD,tvQuestion,tvLevel;
+    Animation animSlideToRight;
 
     private boolean isPlaying;
 
@@ -77,6 +80,8 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         tvcaseD= (TextView) findViewById(R.id.tv_case_d);
         tvQuestion= (TextView) findViewById(R.id.tv_question);
         tvLevel= (TextView) findViewById(R.id.tv_level);
+        //anh xa anim
+        animSlideToRight= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_to_right);
 
 
         drawerListener = new DrawerLayout.DrawerListener() {
@@ -247,6 +252,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                         @Override
                         public void onFinish() {
                             //neu tra loi dung thi hien tien thuong layout sau do wa cau tiep theo
+                            drawerLayout.startAnimation(animSlideToRight);
                             //tra ve trang thai ban dau
                             tvcaseA.setBackgroundResource(R.drawable.player_answer_background_normal);
                             tvcaseB.setBackgroundResource(R.drawable.player_answer_background_normal);
@@ -300,7 +306,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         Cursor cursor = database.rawQuery("SELECT * FROM CauHoi where level="+level+" ORDER BY RANDOM() LIMIT 1;", null);
 
         if(cursor.moveToNext()){
-            Toast.makeText(getApplicationContext(),cursor.getString(0)+"",Toast.LENGTH_SHORT).show();
+
             tvQuestion.setText("Câu số "+cauSo+"\n"+cursor.getString(1));
             tvcaseA.setText("A. "+cursor.getString(2));
             tvcaseB.setText("B. "+cursor.getString(3));
