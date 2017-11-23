@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import nnc.tlcn.R;
 import nnc.tlcn.dialogs.thongBaoDialog;
@@ -30,12 +31,12 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
 
     private DrawerLayout.DrawerListener drawerListener;
 
-    private TextView tvTien,tvcaseA,tvcaseB,tvcaseC,tvcaseD,tvQuestion;
+    private TextView tvTien,tvcaseA,tvcaseB,tvcaseC,tvcaseD,tvQuestion,tvLevel;
 
     private boolean isPlaying;
 
     boolean clickDapAn=false;
-    int cauSo=1;
+    int cauSo=1,level=1;
     String luaChon="",dapAn="";
 
     @Override
@@ -59,6 +60,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_player);
         btnSanSang = (Button) findViewById(R.id.btn_sansang);
         tienThuongLayout = (tienThuongLayout) findViewById(R.id.layout_money);
+
         tienThuongLayout.findViewByIds();
         layoutPlay = (LinearLayout) findViewById(R.id.ln_play);
 
@@ -74,6 +76,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         tvcaseC= (TextView) findViewById(R.id.tv_case_c);
         tvcaseD= (TextView) findViewById(R.id.tv_case_d);
         tvQuestion= (TextView) findViewById(R.id.tv_question);
+        tvLevel= (TextView) findViewById(R.id.tv_level);
 
 
         drawerListener = new DrawerLayout.DrawerListener() {
@@ -195,6 +198,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                                     green = false;
                                 }
                             }
+                            //tra loi sai
                             else
                             {
 
@@ -241,6 +245,23 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
 
                         @Override
                         public void onFinish() {
+                            //neu tra loi dung thi hien tien thuong layout sau do wa cau tiep theo
+                            cauSo++;
+                            if (cauSo==6)level=2;
+                            if(cauSo==10)level=3;
+
+                            tvLevel.setText("cau so "+cauSo);
+                            Toast.makeText(getApplicationContext(),""+level,Toast.LENGTH_SHORT).show();
+                            hienThiCauHoi();
+
+
+
+
+                            //neu tra loi sai thi hien cho luu diem
+
+
+
+
 //                            layoutCauHoi.startAnimation(animationSlidetoLeft);
 //                            //
 //                            layoutCauHoi.setVisibility(View.GONE);
@@ -265,10 +286,14 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
     }
     private void hienThiCauHoi(){
         //mở csdl
+        Toast.makeText(getApplicationContext(),""+cauSo,Toast.LENGTH_SHORT).show();
         database=openOrCreateDatabase(DATABASE_NAME,MODE_PRIVATE,null);
+        Cursor cursor = database.rawQuery("SELECT * \n" +
+                "FROM CauHoi\n" +
+                "Where id = "+cauSo, null);
 
-        Cursor cursor=database.rawQuery("select * from CauHoi where id="+cauSo,null);
         if(cursor.moveToNext()){
+            Toast.makeText(getApplicationContext(),cursor.getString(0)+"",Toast.LENGTH_SHORT).show();
             tvQuestion.setText("Câu số "+cauSo+"\n"+cursor.getString(1));
             tvcaseA.setText("A. "+cursor.getString(2));
             tvcaseB.setText("B. "+cursor.getString(3));

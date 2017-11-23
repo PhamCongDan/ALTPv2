@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
 
-        //saoChepCSDL();
+        saoChepCSDL();
         initComponents();
 
 
