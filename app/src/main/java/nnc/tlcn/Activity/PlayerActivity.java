@@ -49,7 +49,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         findViewByIds();
         setEvents();
         loadRules();
-        hienThiCauHoi();
+        //hienThiCauHoi();
     }
 
     public PlayerActivity() {
@@ -151,6 +151,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                 if (v.getId() == R.id.btn_ok) {
                     thongBaoDialog.dismiss();
                     drawerLayout.closeDrawer(GravityCompat.START);
+                    hienThiCauHoi();
                 }
                 thongBaoDialog.dismiss();
             }
@@ -246,6 +247,14 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                         @Override
                         public void onFinish() {
                             //neu tra loi dung thi hien tien thuong layout sau do wa cau tiep theo
+                            //tra ve trang thai ban dau
+                            tvcaseA.setBackgroundResource(R.drawable.player_answer_background_normal);
+                            tvcaseB.setBackgroundResource(R.drawable.player_answer_background_normal);
+                            tvcaseC.setBackgroundResource(R.drawable.player_answer_background_normal);
+                            tvcaseD.setBackgroundResource(R.drawable.player_answer_background_normal);
+
+                            //
+
                             cauSo++;
                             if (cauSo==6)level=2;
                             if(cauSo==10)level=3;
@@ -288,9 +297,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         //mở csdl
         Toast.makeText(getApplicationContext(),""+cauSo,Toast.LENGTH_SHORT).show();
         database=openOrCreateDatabase(DATABASE_NAME,MODE_PRIVATE,null);
-        Cursor cursor = database.rawQuery("SELECT * \n" +
-                "FROM CauHoi\n" +
-                "Where id = "+cauSo, null);
+        Cursor cursor = database.rawQuery("SELECT * FROM CauHoi where level="+level+" ORDER BY RANDOM() LIMIT 1;", null);
 
         if(cursor.moveToNext()){
             Toast.makeText(getApplicationContext(),cursor.getString(0)+"",Toast.LENGTH_SHORT).show();
@@ -384,6 +391,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
     protected void onPause() {
         super.onPause();
     }
+
 
     @Override
     protected void onResume() {
