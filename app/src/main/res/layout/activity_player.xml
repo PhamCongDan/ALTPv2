@@ -130,8 +130,10 @@
                 android:background="@drawable/player_question_background"
                 android:gravity="center"
                 android:padding="20dp"
+                android:textSize="25dp"
+
                 android:text="Chưa có data"
-                android:textColor="@android:color/holo_orange_light"
+                android:textColor="#0dff00"
                 android:textStyle="bold" />
 
             <TextView

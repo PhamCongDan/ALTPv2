@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
@@ -33,13 +34,14 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
 
     private DrawerLayout.DrawerListener drawerListener;
 
-    private TextView tvTien,tvcaseA,tvcaseB,tvcaseC,tvcaseD,tvQuestion,tvLevel;
-    Animation animSlideToRight;
+    private TextView tvTien,tvcaseA,tvcaseB,tvcaseC,tvcaseD,tvQuestion,tvLevel,tvTimer;
+    Animation animSlideToRight,animSlideFromLeft;
 
     private boolean isPlaying;
 
     boolean clickDapAn=false;
-    int cauSo=1,level=1;
+    boolean kq=false;
+    int cauSo=1,level=1,time;
     String luaChon="",dapAn="";
 
     @Override
@@ -64,6 +66,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         btnSanSang = (Button) findViewById(R.id.btn_sansang);
         tienThuongLayout = (tienThuongLayout) findViewById(R.id.layout_money);
 
+
         tienThuongLayout.findViewByIds();
         layoutPlay = (LinearLayout) findViewById(R.id.ln_play);
 
@@ -80,8 +83,10 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         tvcaseD= (TextView) findViewById(R.id.tv_case_d);
         tvQuestion= (TextView) findViewById(R.id.tv_question);
         tvLevel= (TextView) findViewById(R.id.tv_level);
+        tvTimer= (TextView) findViewById(R.id.tv_timer);
         //anh xa anim
         animSlideToRight= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_to_right);
+        animSlideFromLeft=AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_from_left);
 
 
         drawerListener = new DrawerLayout.DrawerListener() {
@@ -156,6 +161,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                 if (v.getId() == R.id.btn_ok) {
                     thongBaoDialog.dismiss();
                     drawerLayout.closeDrawer(GravityCompat.START);
+                    tienThuongLayout.setVisibility(View.GONE);
                     hienThiCauHoi();
                 }
                 thongBaoDialog.dismiss();
@@ -178,6 +184,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
     }
     private void xuLyChonDapAn(final View view){
         if(!clickDapAn) {
+            demnguoc.cancel();
             clickDapAn=true;
             view.setBackgroundResource(R.drawable.player_answer_background_selected);
             new CountDownTimer(4000, 4000) {
@@ -188,13 +195,14 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
 
                 @Override
                 public void onFinish() {
-                    new CountDownTimer(4500, 500) {
+                    new CountDownTimer(3500, 500) {
                         boolean green=false;
                         @Override
 
                         public void onTick(long l) {
                             //tra loi dung thi txt doi mau green-blue
                             if(luaChon.equals(dapAn)) {
+                                kq=true;    // co danh dau de biet di tiep
 
                                 if (!green) {
                                     green = true;
@@ -207,7 +215,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                             //tra loi sai
                             else
                             {
-
+                                kq=false;   //co danh dau de biet di tiep hay dung
                                 if (!green) {
 
                                     green = true;
@@ -224,8 +232,6 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                                         case "D":
                                             tvcaseD.setBackgroundResource(R.drawable.player_answer_background_true);
                                             break;
-
-
                                     }
 
                                 } else {
@@ -251,46 +257,39 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
 
                         @Override
                         public void onFinish() {
-                            //neu tra loi dung thi hien tien thuong layout sau do wa cau tiep theo
-                            drawerLayout.startAnimation(animSlideToRight);
-                            //tra ve trang thai ban dau
-                            tvcaseA.setBackgroundResource(R.drawable.player_answer_background_normal);
-                            tvcaseB.setBackgroundResource(R.drawable.player_answer_background_normal);
-                            tvcaseC.setBackgroundResource(R.drawable.player_answer_background_normal);
-                            tvcaseD.setBackgroundResource(R.drawable.player_answer_background_normal);
+                            if(kq) {
+                                //hien so tien
+                                tienThuongLayout.setBackGroundLevel(cauSo);
 
-                            //
+                                drawerLayout.openDrawer(GravityCompat.START);
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        drawerLayout.closeDrawer(GravityCompat.START);
+                                        //xu ly hien diem so
 
-                            cauSo++;
-                            if (cauSo==6)level=2;
-                            if(cauSo==10)level=3;
+                                        // xu ly load cau tiep theo
+                                        hienThiCauHoi();
+                                        tvcaseA.setBackgroundResource(R.drawable.player_answer_background_normal);
+                                        tvcaseB.setBackgroundResource(R.drawable.player_answer_background_normal);
+                                        tvcaseC.setBackgroundResource(R.drawable.player_answer_background_normal);
+                                        tvcaseD.setBackgroundResource(R.drawable.player_answer_background_normal);
 
-                            tvLevel.setText("cau so "+cauSo);
-                            Toast.makeText(getApplicationContext(),""+level,Toast.LENGTH_SHORT).show();
-                            hienThiCauHoi();
+                                        //
+                                        drawerLayout.setVisibility(View.VISIBLE);
+                                        cauSo++;
+                                        if (cauSo == 6) level = 2;
+                                        if (cauSo == 10) level = 3;
+                                        tvLevel.setText("Câu số " + cauSo);
+                                    }
+                                }, 3000);
+                            }
+                            else{
+                                //neu tra loi sai thi hien cho luu diem
+                            }
 
-
-
-
-                            //neu tra loi sai thi hien cho luu diem
-
-
-
-
-//                            layoutCauHoi.startAnimation(animationSlidetoLeft);
-//                            //
-//                            layoutCauHoi.setVisibility(View.GONE);
-//                            causo++;
-//
-//
-//                            layoutCauHoi.setVisibility(View.VISIBLE);
-//                            tvQuestion.setText("Câu số "+causo);
-//                            layoutCauHoi.startAnimation(animationSlidefromRight);
-//                            hienThiCauHoi();
-//                            btnA.setBackgroundResource(R.drawable.custom_btn);
-//                            btnB.setBackgroundResource(R.drawable.custom_btn);
-//                            btnC.setBackgroundResource(R.drawable.custom_btn);
-//                            btnD.setBackgroundResource(R.drawable.custom_btn);
+                            //trang thai textview tro lai ban dau
                             clickDapAn=false;
                         }
                     }.start();
@@ -299,24 +298,38 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
 
         }
     }
+
+    CountDownTimer demnguoc;
+
     private void hienThiCauHoi(){
         //mở csdl
-        Toast.makeText(getApplicationContext(),""+cauSo,Toast.LENGTH_SHORT).show();
         database=openOrCreateDatabase(DATABASE_NAME,MODE_PRIVATE,null);
         Cursor cursor = database.rawQuery("SELECT * FROM CauHoi where level="+level+" ORDER BY RANDOM() LIMIT 1;", null);
 
         if(cursor.moveToNext()){
-
-            tvQuestion.setText("Câu số "+cauSo+"\n"+cursor.getString(1));
+            tvQuestion.setText(cursor.getString(1));
             tvcaseA.setText("A. "+cursor.getString(2));
             tvcaseB.setText("B. "+cursor.getString(3));
             tvcaseC.setText("C. "+cursor.getString(4));
             tvcaseD.setText("D. "+cursor.getString(5));
             dapAn=cursor.getString(6);
-
         }
         cursor.close();
+        time=31;
 
+        demnguoc=new CountDownTimer(33000, 1000) {
+            @Override
+            public void onTick(long l) {
+                time--;
+                tvTimer.setText(""+time);
+            }
+
+            @Override
+            public void onFinish() {
+                //het thoi gian ==> thua
+                Toast.makeText(getApplicationContext(),"het gio",Toast.LENGTH_SHORT).show();
+            }
+        }.start();
 
 
     }
@@ -353,18 +366,23 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.tv_case_a:
                 luaChon="A";
+
                 xuLyChonDapAn(tvcaseA);
                 break;
             case R.id.tv_case_b:
                 luaChon="B";
+
                 xuLyChonDapAn(tvcaseB);
                 break;
             case R.id.tv_case_c:
                 luaChon="C";
+
+
                 xuLyChonDapAn(tvcaseC);
                 break;
             case R.id.tv_case_d:
                 luaChon="D";
+
                 xuLyChonDapAn(tvcaseD);
                 break;
             default:
