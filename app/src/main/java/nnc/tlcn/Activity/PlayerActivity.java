@@ -41,7 +41,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
 
     boolean clickDapAn=false;
     boolean kq=false;
-    int cauSo=1,level=1,time;
+    int cauSo=1,dokho=1,time;
     String luaChon="",dapAn="";
 
     @Override
@@ -159,6 +159,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 if (v.getId() == R.id.btn_ok) {
+                    btnSanSang.setVisibility(View.GONE);
                     thongBaoDialog.dismiss();
                     drawerLayout.closeDrawer(GravityCompat.START);
                     tienThuongLayout.setVisibility(View.GONE);
@@ -258,6 +259,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                         @Override
                         public void onFinish() {
                             if(kq) {
+                                tvTien.setText(tienThuongLayout.getMoney(cauSo));
                                 //hien so tien
                                 tienThuongLayout.setBackGroundLevel(cauSo);
 
@@ -270,6 +272,9 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                                         //xu ly hien diem so
 
                                         // xu ly load cau tiep theo
+                                        cauSo++;
+                                        if (cauSo == 6) dokho = 2;
+                                        if (cauSo == 10) dokho = 3;
                                         hienThiCauHoi();
                                         tvcaseA.setBackgroundResource(R.drawable.player_answer_background_normal);
                                         tvcaseB.setBackgroundResource(R.drawable.player_answer_background_normal);
@@ -278,9 +283,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
 
                                         //
                                         drawerLayout.setVisibility(View.VISIBLE);
-                                        cauSo++;
-                                        if (cauSo == 6) level = 2;
-                                        if (cauSo == 10) level = 3;
+
                                         tvLevel.setText("Câu số " + cauSo);
                                     }
                                 }, 3000);
@@ -303,8 +306,9 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
 
     private void hienThiCauHoi(){
         //mở csdl
+        try{
         database=openOrCreateDatabase(DATABASE_NAME,MODE_PRIVATE,null);
-        Cursor cursor = database.rawQuery("SELECT * FROM CauHoi where level="+level+" ORDER BY RANDOM() LIMIT 1;", null);
+        Cursor cursor = database.rawQuery("SELECT * FROM CauHoi where level="+dokho+" ORDER BY RANDOM() LIMIT 1;", null);
 
         if(cursor.moveToNext()){
             tvQuestion.setText(cursor.getString(1));
@@ -315,9 +319,13 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
             dapAn=cursor.getString(6);
         }
         cursor.close();
+        }
+        catch (Exception ex){
+            Toast.makeText(getApplicationContext(),ex+"",Toast.LENGTH_SHORT).show();
+        }
         time=31;
 
-        demnguoc=new CountDownTimer(33000, 1000) {
+        demnguoc=new CountDownTimer(32100, 1000) {
             @Override
             public void onTick(long l) {
                 time--;
@@ -330,12 +338,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(getApplicationContext(),"het gio",Toast.LENGTH_SHORT).show();
             }
         }.start();
-
-
     }
-
-
-
 
     @Override
     public void onClick(final View v) {
@@ -366,30 +369,24 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.tv_case_a:
                 luaChon="A";
-
                 xuLyChonDapAn(tvcaseA);
                 break;
             case R.id.tv_case_b:
                 luaChon="B";
-
                 xuLyChonDapAn(tvcaseB);
                 break;
             case R.id.tv_case_c:
                 luaChon="C";
-
-
                 xuLyChonDapAn(tvcaseC);
                 break;
             case R.id.tv_case_d:
                 luaChon="D";
-
                 xuLyChonDapAn(tvcaseD);
                 break;
             default:
                 break;
         }
     }
-
 
     public void stopGame() {
         thongBaoDialog.setCancelable(true);
