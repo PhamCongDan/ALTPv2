@@ -3,6 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#249182"
+    android:id="@+id/dlayout_diemso"
     android:padding="16dp">
     <TableRow android:layout_width="match_parent"
         android:layout_height="wrap_content"

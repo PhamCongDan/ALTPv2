@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import nnc.tlcn.Activity.PlayerActivity;
-import nnc.tlcn.App;
 import nnc.tlcn.R;
 import nnc.tlcn.dialogs.diemSoDialog;
 import nnc.tlcn.dialogs.thongTinDialog;

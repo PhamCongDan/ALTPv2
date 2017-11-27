@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import nnc.tlcn.R;
+import nnc.tlcn.dialogs.diemSoDialog;
 import nnc.tlcn.dialogs.thongBaoDialog;
 import nnc.tlcn.layout.tienThuongLayout;
 
@@ -28,13 +29,14 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
     private DrawerLayout drawerLayout;
     private tienThuongLayout tienThuongLayout;
     private LinearLayout layoutPlay;
-    private ImageButton btnStop,btnCall, btnKhanGia, btn5050, btnChange;
+    private ImageButton btnCall, btnKhanGia, btn5050, btnChange;
     private thongBaoDialog thongBaoDialog;
     private Button btnSanSang;
 
+
     private DrawerLayout.DrawerListener drawerListener;
 
-    private TextView tvTien,tvcaseA,tvcaseB,tvcaseC,tvcaseD,tvQuestion,tvLevel,tvTimer;
+    private TextView tvTien,tvcaseA,tvcaseB,tvcaseC,tvcaseD,tvQuestion,tvLevel,tvTimer,tvScore;
     Animation animSlideToRight,animSlideFromLeft;
 
     private boolean isPlaying;
@@ -54,7 +56,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         findViewByIds();
         setEvents();
         loadRules();
-        //hienThiCauHoi();
+
     }
 
     public PlayerActivity() {
@@ -70,7 +72,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         tienThuongLayout.findViewByIds();
         layoutPlay = (LinearLayout) findViewById(R.id.ln_play);
 
-        btnStop = (ImageButton) findViewById(R.id.btn_stop);
+
         btnCall=(ImageButton) findViewById(R.id.btn_call);
         btnKhanGia=(ImageButton)findViewById(R.id.btn_khangia) ;
         btn5050=(ImageButton) findViewById(R.id.btn_5050);
@@ -84,6 +86,8 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         tvQuestion= (TextView) findViewById(R.id.tv_question);
         tvLevel= (TextView) findViewById(R.id.tv_level);
         tvTimer= (TextView) findViewById(R.id.tv_timer);
+
+
         //anh xa anim
         animSlideToRight= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_to_right);
         animSlideFromLeft=AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_from_left);
@@ -121,7 +125,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
     private void setEvents(){
         btnSanSang.setOnClickListener(this);
 
-        btnStop.setOnClickListener(this);
+
         btnCall.setOnClickListener(this);
         btnKhanGia.setOnClickListener(this);
         btnChange.setOnClickListener(this);
@@ -188,19 +192,17 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
             demnguoc.cancel();
             clickDapAn=true;
             view.setBackgroundResource(R.drawable.player_answer_background_selected);
-            new CountDownTimer(4000, 4000) {
+            //tao thoi gian delay de xu ly truoc khi hien ket qua trong 3s
+            Handler handler=new Handler();
+            handler.postDelayed(new Runnable() {
                 @Override
-                public void onTick(long l) {
-
-                }
-
-                @Override
-                public void onFinish() {
+                public void run() {
                     new CountDownTimer(3500, 500) {
                         boolean green=false;
                         @Override
 
                         public void onTick(long l) {
+
                             //tra loi dung thi txt doi mau green-blue
                             if(luaChon.equals(dapAn)) {
                                 kq=true;    // co danh dau de biet di tiep
@@ -290,6 +292,12 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                             }
                             else{
                                 //neu tra loi sai thi hien cho luu diem
+                                if(cauSo<=5) stop();
+                                else {
+                                    diemSoDialog diemSoDialog = new diemSoDialog(PlayerActivity.this);
+                                    diemSoDialog.setScore(xuLyLayPhanThuong(cauSo));
+                                    diemSoDialog.show();
+                                }
                             }
 
                             //trang thai textview tro lai ban dau
@@ -297,9 +305,12 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                         }
                     }.start();
                 }
-            }.start();
-
+            },3000);
         }
+    }
+    private String xuLyLayPhanThuong(int causo){
+        if(causo<=10)   return tienThuongLayout.getMoney(5);
+        else return tienThuongLayout.getMoney(10);
     }
 
     CountDownTimer demnguoc;
@@ -335,7 +346,9 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
             @Override
             public void onFinish() {
                 //het thoi gian ==> thua
-                Toast.makeText(getApplicationContext(),"het gio",Toast.LENGTH_SHORT).show();
+                diemSoDialog diemSoDialog=new diemSoDialog(PlayerActivity.this);
+                diemSoDialog.setScore(xuLyLayPhanThuong(cauSo));
+                diemSoDialog.show();
             }
         }.start();
     }
@@ -343,11 +356,6 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
-
-
-            case R.id.btn_stop:
-                stopGame();
-                break;
             case R.id.iv_player:
                 drawerLayout.openDrawer(GravityCompat.START);
                 break;
