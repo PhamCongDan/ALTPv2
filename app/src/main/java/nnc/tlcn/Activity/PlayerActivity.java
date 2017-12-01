@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import nnc.tlcn.R;
+import nnc.tlcn.database.Database;
 import nnc.tlcn.dialogs.diemSoDialog;
 import nnc.tlcn.dialogs.thongBaoDialog;
 import nnc.tlcn.layout.tienThuongLayout;
@@ -26,6 +27,8 @@ import static nnc.tlcn.Activity.MainActivity.database;
 
 
 public class PlayerActivity extends Activity implements View.OnClickListener {
+    Database db;
+
     private DrawerLayout drawerLayout;
     private tienThuongLayout tienThuongLayout;
     private LinearLayout layoutPlay;
@@ -292,12 +295,8 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                             }
                             else{
                                 //neu tra loi sai thi hien cho luu diem
-                                if(cauSo<=5) stop();
-                                else {
-                                    diemSoDialog diemSoDialog = new diemSoDialog(PlayerActivity.this);
-                                    diemSoDialog.setScore(xuLyLayPhanThuong(cauSo));
-                                    diemSoDialog.show();
-                                }
+                                //gameOver();
+                                xuLyLuuDiem();
                             }
 
                             //trang thai textview tro lai ban dau
@@ -308,10 +307,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
             },3000);
         }
     }
-    private String xuLyLayPhanThuong(int causo){
-        if(causo<=10)   return tienThuongLayout.getMoney(5);
-        else return tienThuongLayout.getMoney(10);
-    }
+
 
     CountDownTimer demnguoc;
 
@@ -346,11 +342,25 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
             @Override
             public void onFinish() {
                 //het thoi gian ==> thua
-                diemSoDialog diemSoDialog=new diemSoDialog(PlayerActivity.this);
-                diemSoDialog.setScore(xuLyLayPhanThuong(cauSo));
-                diemSoDialog.show();
+
+                gameOver();
             }
         }.start();
+    }
+    private void xuLyLuuDiem(){
+        db=new Database(this,"ALTPdb.sqlite",null,1);
+        db.QueryData("INSERT INTO DiemCao VALUES ('Dan Pham',2)");
+
+    }
+    private void gameOver(){
+        if(cauSo==1) stop();
+        else {
+            if(!((Activity) getApplicationContext()).isFinishing()) {
+                diemSoDialog diemSoDialog = new diemSoDialog(PlayerActivity.this);
+                diemSoDialog.setScore(tvTien.getText().toString());
+                diemSoDialog.show();
+            }
+        }
     }
 
     @Override
@@ -396,6 +406,14 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        stopGame();
+
+
+    }
+
     public void stopGame() {
         thongBaoDialog.setCancelable(true);
         thongBaoDialog.setNotification("Bạn thực sự muốn dừng cuộc chơi ?", "Đồng ý", "Hủy bỏ", new View.OnClickListener() {
@@ -403,7 +421,9 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
             public void onClick(View v) {
                 if (v.getId() == R.id.btn_ok) {
                     stopThread();
+
                     finish();
+                    demnguoc.cancel();
                 }
                 thongBaoDialog.dismiss();
             }
