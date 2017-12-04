@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:id="@+id/rl_calls"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:padding="48dp"
+        android:gravity="center">
+        <LinearLayout
+            android:id="@+id/ln_answer"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_answer"
+                android:paddingTop="16dp"
+                android:paddingBottom="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Theo tôi đáp án đúng là A"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="#ffbe1c" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ln_call_01"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btn_help_01"
+                android:layout_width="72dp"
+
+                android:layout_height="72dp"
+                app:srcCompat="@android:drawable/sym_def_app_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AAAA"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ln_call_02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:id="@+id/btn_help_02"
+                app:srcCompat="@android:drawable/sym_def_app_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BBBBB"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ln_call_03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btn_help_03"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                app:srcCompat="@android:drawable/sym_def_app_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CCCC"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ln_call_04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btn_help_04"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                app:srcCompat="@android:drawable/sym_def_app_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DDDD"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+
+   </RelativeLayout>
+
+
+    <TextView
+        android:layout_width="172dp"
+        android:layout_height="50dp"
+        android:text="AAAAAAAAAAAAA"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:background="@color/colorYellow"
+        android:layout_marginTop="-322dp"/>
+
+
+</LinearLayout>

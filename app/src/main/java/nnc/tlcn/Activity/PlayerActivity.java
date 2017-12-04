@@ -28,6 +28,7 @@ import static nnc.tlcn.Activity.MainActivity.database;
 
 public class PlayerActivity extends Activity implements View.OnClickListener {
     Database db;
+    //Question cauhoi;
 
     private DrawerLayout drawerLayout;
     private tienThuongLayout tienThuongLayout;
@@ -296,7 +297,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                             else{
                                 //neu tra loi sai thi hien cho luu diem
                                 //gameOver();
-                                xuLyLuuDiem();
+                                //xuLyLuuDiem();
                             }
 
                             //trang thai textview tro lai ban dau
@@ -312,12 +313,20 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
     CountDownTimer demnguoc;
 
     private void hienThiCauHoi(){
+
         //mở csdl
         try{
         database=openOrCreateDatabase(DATABASE_NAME,MODE_PRIVATE,null);
         Cursor cursor = database.rawQuery("SELECT * FROM CauHoi where level="+dokho+" ORDER BY RANDOM() LIMIT 1;", null);
-
+        //cauhoi =new Question();
         if(cursor.moveToNext()){
+            /*cauhoi.question=cursor.getString(1);
+            cauhoi.caseA=cursor.getString(2);
+            cauhoi.caseB=cursor.getString(3);
+            cauhoi.caseC=cursor.getString(4);
+            cauhoi.trueCase=cursor.getString(5);*/
+
+
             tvQuestion.setText(cursor.getString(1));
             tvcaseA.setText("A. "+cursor.getString(2));
             tvcaseB.setText("B. "+cursor.getString(3));
@@ -344,12 +353,16 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                 //het thoi gian ==> thua
 
                 gameOver();
+
             }
         }.start();
     }
     private void xuLyLuuDiem(){
         db=new Database(this,"ALTPdb.sqlite",null,1);
-        db.QueryData("INSERT INTO DiemCao VALUES ('Dan Pham',2)");
+        db.QueryData("INSERT INTO DiemCao VALUES ('Dan Pham',1)");
+
+        Cursor row=db.GetData("select * from DiemCao where diem=1");
+        Toast.makeText(getApplicationContext(),""+row.getColumnCount(),Toast.LENGTH_SHORT).show();
 
     }
     private void gameOver(){

@@ -1,19 +1,20 @@
 package nnc.tlcn.model;
 
 public class Question {
-    private String question;
-    private String caseA;
-    private String caseB;
-    private String caseC;
-    private String caseD;
-    private int trueCase, level;
+    public String question;
+    public String caseA;
+    public String caseB;
+    public String caseC;
+    public String caseD;
+    public String trueCase;
+            int level;
 
     public Question(){
     }
 
     public Question(String question, String caseA,
                     String caseB, String caseC,
-                    String caseD, int trueCase, int level) {
+                    String caseD, String trueCase, int level) {
         this.question = question;
         this.caseA = caseA;
         this.caseB = caseB;
@@ -32,6 +33,7 @@ public class Question {
                 "D:"+caseD+"\n"+
                 "Answer:"+trueCase+"\n";
     }
+
     public int getLevel() {
         return level;
     }
@@ -56,7 +58,7 @@ public class Question {
         return caseD;
     }
 
-    public int getTrueCase() {
+    public String getTrueCase() {
         return trueCase;
     }
 
