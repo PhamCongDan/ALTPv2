@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         try{
 
             CopyDatabaseFromAsset();
-            Toast.makeText(this,"copy thành công",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"copy thành công",Toast.LENGTH_SHORT).show();
         }
         catch (Exception e)
         {

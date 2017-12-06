@@ -1,45 +1,33 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Define the background properties like color etc -->
     <item android:id="@android:id/background">
         <shape>
-            <corners android:radius="5dip" />
             <gradient
-                android:startColor="#ff9d9e9d"
-                android:centerColor="#ff5a5d5a"
-                android:centerY="0.75"
-                android:endColor="#ff747674"
+                android:startColor="#da292931"
+                android:centerColor="#232930"
+                android:centerY="1.0"
+                android:endColor="#d7373d48"
                 android:angle="270"
                 />
+            <corners android:radius="10dp"/>
         </shape>
     </item>
 
-    <item android:id="@android:id/secondaryProgress">
-        <clip>
-            <shape>
-                <corners android:radius="5dip" />
-                <gradient
-                    android:startColor="#80ffd300"
-                    android:centerColor="#80ffb600"
-                    android:centerY="0.75"
-                    android:endColor="#a0ffcb00"
-                    android:angle="270"
-                    />
-            </shape>
-        </clip>
-    </item>
-
+    <!-- Define the progress properties like start color, end color etc -->
     <item android:id="@android:id/progress">
-        <clip>
+        <clip   android:clipOrientation="vertical" android:gravity="bottom">
             <shape>
-                <corners
-                    android:radius="5dip" />
                 <gradient
-                    android:startColor="@color/colorWhite"
-                    android:endColor="@color/colorViolet"
+                    android:startColor="#cad142"
+                    android:centerColor="#ffa601"
+                    android:centerY="1.0"
+                    android:endColor="#d1cb2a"
                     android:angle="270"
                     />
+
+                <corners android:radius="10dp"/>
             </shape>
         </clip>
     </item>
-
 </layer-list>

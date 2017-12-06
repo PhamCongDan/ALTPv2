@@ -17,6 +17,8 @@ public class diemSoDialog extends Dialog implements View.OnClickListener {
     private EditText edtName;
     private TextView tvScore;
 
+
+
     public diemSoDialog(Context context) {
         super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -26,6 +28,8 @@ public class diemSoDialog extends Dialog implements View.OnClickListener {
         edtName = (EditText) findViewById(R.id.edt_name);
         tvScore = (TextView) findViewById(R.id.tv_score);
         findViewById(R.id.btn_ok).setOnClickListener(this);
+
+
 
     }
 
@@ -44,6 +48,8 @@ public class diemSoDialog extends Dialog implements View.OnClickListener {
             values.put("Name", edtName.getText().toString().trim());
             values.put("Score", score);
             dismiss();
+
         }
     }
+
 }
