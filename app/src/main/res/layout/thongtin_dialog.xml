@@ -2,11 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
     android:background="#eaeaea">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="About"
+        android:text="Hướng dẫn sử dụng"
+        android:textSize="15dp"
         android:padding="16dp"
         android:textColor="#ffffff"
         android:textStyle="bold"
@@ -15,33 +17,96 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="16sp"
-        android:textColor="#8b8787"
+        android:text="luật chơi"
+        android:textSize="25dp"
+        android:textColor="#930e0e"
         android:textStyle="bold"
         android:gravity="center"
+        android:textAllCaps="true"
         android:paddingTop="16dp"/>
+
     <TextView
+        android:textSize="15dp"
+        android:textAlignment="gravity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:paddingLeft="32dp"
-        android:textColor="#8b8787"
-        android:text="Phiên bản: 1.0.0"/>
+        android:paddingRight="32dp"
+        android:textColor="#000000"
+        android:text="  Người chơi phải trả lời 15 câu hỏi với cấp độ từ dễ đến khó, thời gian trả lời là 30 giây. Mỗi câu hỏi đều được gắn với một mức tiền thưởng quy định. Người chơi trả lời đến câu hỏi nào thì chắc chắn có được số điểm thưởng tương ứng của các câu hỏi đó."
+
+        android:id="@+id/textView4" />
     <TextView
+        android:textSize="20dp"
+        android:textAlignment="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="32dp"
-        android:textColor="#8b8787"
-        android:text="Design: canhdanstudio"/>
+        android:paddingTop="16dp"
+
+        android:textColor="#000000"
+
+        android:text="  TRỢ GIÚP"
+
+        android:id="@+id/textView5" />
     <TextView
-        android:paddingBottom="16dp"
+        android:textSize="15dp"
+        android:textAlignment="gravity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="5dp"
         android:paddingLeft="32dp"
-        android:textColor="#8b8787"
-        android:text="Email: nnc@gmail.com
-            congdan@gmail.com
-         "/>
+        android:paddingRight="32dp"
+        android:textColor="#000000"
+        android:text="  50:50: Máy tính bỏ đi 2 phương án sai để người chơi chọn một trong 2 phương án còn lại."
+
+        android:id="@+id/textView6" />
+    <TextView
+        android:textSize="15dp"
+        android:textAlignment="gravity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:textColor="#000000"
+        android:text="  Hỏi người nổi tiếng: Người chơi liên lạc tới một trong số những người nổi tiếng và hỏi ý kiến của họ."
+        android:id="@+id/textView7" />
+    <TextView
+        android:textSize="15dp"
+        android:textAlignment="gravity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:textColor="#000000"
+        android:text="  Hỏi ý kiến khán giả trong trường quay: Người chơi sẽ nhận được kết quả trợ giúp dưới dạng biểu đồ phần trăm số khán giả lựa chọn từng phương án."
+        android:id="@+id/textView8" />
+    <TextView
+        android:textSize="15dp"
+        android:textAlignment="gravity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:textColor="#000000"
+        android:text="  Đổi câu hỏi: Người chơi sẽ được đổi câu hỏi với cùng độ khó"
+        android:id="@+id/textView9"
+        android:paddingBottom="10dp"/>
+    <Button
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:background="#9C27B0"
+        android:textColor="@color/colorWhite"
+        android:id="@+id/buttonDong"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:text="Đóng"
+
+        />
 
 </LinearLayout>

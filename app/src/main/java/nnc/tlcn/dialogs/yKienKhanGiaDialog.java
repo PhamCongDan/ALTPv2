@@ -48,6 +48,7 @@ public class yKienKhanGiaDialog extends Dialog {
             @Override
             public void onClick(View view) {
                 dismiss();
+
             }
         });
     }

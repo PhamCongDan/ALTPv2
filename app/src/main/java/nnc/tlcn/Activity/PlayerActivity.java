@@ -207,7 +207,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    new CountDownTimer(3500, 500) {
+                    new CountDownTimer(2000, 500) {
                         boolean green=false;
                         @Override
 
@@ -317,7 +317,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                         }
                     }.start();
                 }
-            },3000);
+            },2000);
         }
     }
 
@@ -392,7 +392,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
 
         }
     }
-    //-------------xu ly cac quyen tro giup-----------------------
+    //-------------xu ly cac quyen tro giup-----------------------//////
     private void xuLyDoiCauHoi(){
         if(!doiCauHoi){
 
@@ -495,7 +495,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                             }
                         }
                         Random random=new Random();
-                        tyLe[index]=random.nextInt(55)+25;      //ty le cua dap an dung
+                        tyLe[index]=random.nextInt(65)+25;      //ty le cua dap an dung [15-->80]
                         int sum=tyLe[index];
                         for(int j=0;j<tyLe.length;j++){
                             if (j!=index){
