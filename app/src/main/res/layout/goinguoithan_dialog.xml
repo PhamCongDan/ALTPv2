@@ -11,16 +11,18 @@
         android:id="@+id/rl_calls"
         android:layout_width="300dp"
         android:layout_height="300dp"
+        android:orientation="horizontal"
         android:padding="48dp"
         android:gravity="center">
         <LinearLayout
             android:id="@+id/ln_answer"
+
             android:visibility="gone"
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="horizontal">
             <TextView
                 android:id="@+id/tv_answer"
                 android:paddingTop="16dp"
@@ -30,7 +32,8 @@
                 android:text="Theo tôi đáp án đúng là A"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:textColor="#ffbe1c" />
+                android:textColor="#ffbe1c"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -124,20 +127,48 @@
                 android:id="@+id/textView3" />
         </LinearLayout>
 
-   </RelativeLayout>
+
+
+
+
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:gravity="center|bottom"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+        <Button
+            android:id="@+id/btn_close"
+            android:layout_width="100dp"
+            android:layout_height="32dp"
+            android:text="Đóng"
+            android:textSize="15dp"
+            android:textColor="@color/colorViolet"
+            android:textAllCaps="false"
+            android:background="@color/colorYellow"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/ln_call_04" />
+    </LinearLayout>
 
 
     <TextView
         android:layout_width="172dp"
         android:layout_height="50dp"
         android:text="AAAAAAAAAAAAA"
-        android:visibility="gone"
+        android:visibility="invisible"
         android:gravity="center"
         android:textStyle="bold"
         android:textColor="#000000"
         android:background="@color/colorYellow"
         android:layout_marginTop="-322dp"
-        android:id="@+id/textView2" />
+        android:id="@+id/txtGoiY" />
 
 
 </LinearLayout>

@@ -20,6 +20,7 @@ import java.util.Random;
 
 import nnc.tlcn.R;
 import nnc.tlcn.database.Database;
+import nnc.tlcn.dialogs.GoiNguoiThanDialog;
 import nnc.tlcn.dialogs.diemSoDialog;
 import nnc.tlcn.dialogs.thongBaoDialog;
 import nnc.tlcn.dialogs.yKienKhanGiaDialog;
@@ -50,7 +51,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
 
     boolean clickDapAn=false;
     boolean kq=false;
-    boolean doiCauHoi=false,troGiup5050=false,troGiupKhanGia=false;
+    boolean doiCauHoi=false,troGiup5050=false,troGiupKhanGia=false,troGiupGoiNguoiThan=false;
     int cauSo=1,dokho=1,time;
     String luaChon="",dapAn="";
 
@@ -515,7 +516,57 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
             thongBaoDialog.show();
         }
     }
+    private void xuLyGoiNguoiThan(){
+        if(!troGiupGoiNguoiThan){
 
+            thongBaoDialog.setCancelable(true);
+            thongBaoDialog.setNotification("Bạn có muốn đổi câu hỏi", "Ok", "Hủy bỏ", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(v.getId() == R.id.btn_ok) {
+                        troGiupGoiNguoiThan=true;
+                        demnguoc.cancel();
+                        btnCall.setBackgroundResource(R.drawable.player_button_image_help_call_x);
+
+                        thongBaoDialog.dismiss();
+
+                        //show dialog goi nguoi than
+                        GoiNguoiThanDialog goiNguoiThanDialog=new GoiNguoiThanDialog(PlayerActivity.this);
+                        ///xu ly dap an show ra
+
+                        int[] tyLe={0,0,0,0};       //ty le cua 4 dap an
+                        String[] array={"A","B","C","D"};       // tim chỉ số của đáp án đúng
+                        int index=-1;
+
+                        for(int i=0;i<array.length;i++){
+                            if(dapAn.equals(array[i])){
+                                index=i;        //chi so la index
+                            }
+                        }
+                        Random random=new Random();
+                        tyLe[index]=random.nextInt(65)+25;      //ty le cua dap an dung [15-->80]
+                        int sum=tyLe[index];
+                        for(int j=0;j<tyLe.length;j++){
+                            if (j!=index){
+                                tyLe[j]= random.nextInt(100-sum);      //ty le cua cac dap an khac
+                                sum+=tyLe[j];
+                            }
+                        }
+                        if (sum<100)    tyLe[1]+=100-sum;       //neu tong <100 thi dua vao cau B
+                        int max=0;
+                        for (int i=0;i<tyLe.length;i++){
+                            if (max<tyLe[i])
+                                max=i;
+                        }
+                        goiNguoiThanDialog.getDapAn(max);
+                        goiNguoiThanDialog.show();
+                    }
+                    thongBaoDialog.dismiss();
+                }
+            });
+            thongBaoDialog.show();
+        }
+    }
 
     @Override
     public void onClick(final View v) {
@@ -537,7 +588,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener {
                 xuLyHoiKhanGia();
                 break;
             case R.id.btn_call:
-                comingsoon();
+                xuLyGoiNguoiThan();
                 break;
             case R.id.tv_case_a:
                 luaChon="A";

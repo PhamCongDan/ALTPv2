@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/player_answer_background_normal"
+    android:padding="5dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:text="ten "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtTen"
+        android:textColor="@color/colorWhite"
+        android:paddingTop="15dp"
+        android:paddingLeft="25dp"
+        android:textSize="25dp"
+        android:layout_weight="1.5" />
+
+    <TextView
+        android:text="500.000 vnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtDiemCao"
+        android:textSize="25dp"
+
+        android:textColor="@color/colorWhite"
+        android:paddingTop="15dp"
+        android:paddingLeft="25dp"
+        android:layout_weight="0.5" />
+</LinearLayout>

@@ -14,6 +14,7 @@ import android.view.animation.AnimationUtils;
 
 import nnc.tlcn.Activity.PlayerActivity;
 import nnc.tlcn.R;
+import nnc.tlcn.dialogs.DiemCaoDialog;
 import nnc.tlcn.dialogs.diemSoDialog;
 import nnc.tlcn.dialogs.thongTinDialog;
 
@@ -66,6 +67,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_setting:
+                DiemCaoDialog diemCaoDialog=new DiemCaoDialog(getContext());
+                diemCaoDialog.show();
                 break;
 
             case R.id.btn_play:
@@ -81,8 +84,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 thongTinDialog thongTinDialog = new thongTinDialog(getContext());
                 thongTinDialog.show();
                 break;
+
                 default:
                 break;
+
         }
     }
 }
